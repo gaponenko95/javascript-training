@@ -1,0 +1,8 @@
+body {
+  background-color: black
+}
+.title {
+  color: rgb(82, 59, 211);
+  font-size: 44px;
+  text-align: center;
+}
