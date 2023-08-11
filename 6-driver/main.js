@@ -7,8 +7,7 @@ isDrunk - пьян
 */
 
 const hasLicence = true;
-let age = 18;
+const age = 18;
 const isDrunk = false;
 
-console.log((hasLicence === true && age >= 18 && !isDrunk) ? "Может" : "Не может")
-
+console.log(hasLicence && age >= 18 && !isDrunk ? "Может" : "Не может");
