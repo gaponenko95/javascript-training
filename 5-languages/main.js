@@ -1,15 +1,15 @@
 const langSelector = prompt("Please, select a language: Ru, Eng, De!");
 
-switch (true) {
-  case langSelector === "Ru":
+switch (langSelector) {
+  case "Ru":
     console.log("Добро пожаловать!");
     break;
-  case langSelector === "Eng":
+  case "Eng":
     console.log("Welcome!");
     break;
-  case langSelector === "De":
+  case "De":
     console.log("Willkommen!");
     break;
   default:
     console.log("error");
-};
+}
