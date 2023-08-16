@@ -1,9 +1,9 @@
 function RUB_USD_EUR(amount, curCurrency, getCurrency) {
   curCurrency === "RUB";
   if (getCurrency === "USD") {
-    return amount * 0.01 + getCurrency;
+    return amount * 0.0099 + getCurrency;
   } else if (getCurrency === "EUR") {
-    return amount * 0.012 + getCurrency;
+    return amount * 0.009 + getCurrency;
   } else if (getCurrency === "RUB") {
     return amount + getCurrency;
   } else {
@@ -60,4 +60,5 @@ function currencyConverter2(amount, curCurrency, getCurrency) {
   }
 }
 
+console.log(currencyConverter(1000, "RUB", "USD"));
 console.log(currencyConverter2(1000, "RUB", "USD"));
