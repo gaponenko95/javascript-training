@@ -22,48 +22,79 @@ const arr = [
   "05/05/2000",
 ];
 
-function filterDates(arr) {
-  const filteringSuitableValues = arr.filter((str) => {
-    const parts = str.split(/[-/]/);
-    const day = Number(parts[0]);
-    const month = Number(parts[1]);
-    const year = Number(parts[2]);
+function transformDateStringToArray(dateString) {
+  let [month, day, year] = dateString.split("/");
 
-    if (
-      isNaN(day) ||
-      isNaN(month) ||
-      isNaN(year) ||
-      day === 0 ||
-      day > 31 ||
-      month === 0 ||
-      month > 12
-    ) {
-      return false;
-    }
+  if (!year) {
+    [day, month, year] = dateString.split("-");
+  }
 
-    const dates = new Array(day, month, year);
+  if (!year || isNaN(day) || isNaN(month) || isNaN(year)) {
+    return null;
+  }
 
-    return dates;
-  });
-
-  const suitableDateFormat = filteringSuitableValues
-  .filter((item) => !item.includes("/"));
-
-  const notSuitableDateFormat = filteringSuitableValues
-    .filter((item) => item.includes("/"))
-    .map((str) => {
-      const parts = str.split("/");
-      const day = parts[1];
-      const month = parts[0];
-      const year = parts[2];
-      return `${day}-${month}-${year}`;
-    });
-
-  const result = suitableDateFormat.concat(notSuitableDateFormat);
-
-  return result.sort();
+  return [day, month, year];
 }
 
-const result = filterDates(arr);
+function checkCorrectDate(dateArray) {
+  const LONG_MONTH_ARRAY = [1, 3, 5, 7, 8, 10, 12];
+
+  function isLeapYear(year) {
+    return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+  }
+
+  const [day, month, year] = dateArray.map((dateEl) => Number(dateEl));
+
+  if (month > 12 || month < 1) {
+    return false;
+  }
+
+  if (day > 31 || day < 1) {
+    return false;
+  }
+
+  if (day === 31 && !LONG_MONTH_ARRAY.includes(month)) {
+    return false;
+  }
+
+  if (month === 2) {
+    if (day === 30 || (day === 29 && !isLeapYear(year))) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function checkDateFormat(date) {
+  if (typeof date !== "string") {
+    return false;
+  }
+
+  const dateNumbersArray = transformDateStringToArray(date);
+
+  if (dateNumbersArray === null) {
+    return false;
+  }
+
+  if (dateNumbersArray.some((number) => !number || !(Number(number) >= 0))) {
+    return false;
+  }
+
+  if (!checkCorrectDate(dateNumbersArray)) {
+    return false;
+  }
+
+  return true;
+}
+
+function getDates(arr) {
+  const resultArr = [...arr];
+  return resultArr
+    .filter(checkDateFormat)
+    .map((filteredDate) => transformDateStringToArray(filteredDate).join("-"));
+}
+
+const result = getDates(arr);
 
 console.log(result);
